@@ -1,51 +1,82 @@
-# Welcome to your Expo app 👋
+# Firebase Auth Practice - Build & Deployment Guide
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## 📌 Prerequisites
 
-## Get started
+Before proceeding with the build and deployment process, ensure you have the following:
 
-1. Install dependencies
+- Node.js (latest LTS version) installed
+- Expo CLI installed globally (`npm install -g expo-cli`)
+- Firebase project set up with Authentication & Firestore/Realtime Database
+- `google-services.json` placed in `android/app/` ( Please get it from your firebase console)
+- EAS CLI installed (`npm install -g eas-cli`)
+- Expo account logged in (`eas login`)
+- Base64-encoded `google-services.json` stored in a text file at the root level for EAS Build 
 
-   ```bash
-   npm install
-   ```
+## 🚀 Build Process
 
-2. Start the app
-
-   ```bash
-    npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+### 1️⃣ Install Dependencies
+```sh
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2️⃣ Configure EAS Build
+```sh
+eas build:configure
+```
+Follow the prompts to set up the build profile.
 
-## Learn more
+### 3️⃣ Build APK (Android)
+```sh
+eas build --platform android
+```
+This will generate an APK file for Android deployment.
 
-To learn more about developing your project with Expo, look at the following resources:
+### 4️⃣ Build IPA (iOS) *(Optional)*
+```sh
+eas build --platform ios
+```
+Ensure you have an Apple Developer account and necessary certificates configured.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 🔧 Environment Configurations
 
-## Join the community
+### 1️⃣ Firebase Configuration
+- `google-services.json` must be placed in `android/app/`
+- Ensure Firebase Authentication & Firestore/Realtime Database rules are properly configured
 
-Join our community of developers creating universal apps.
+### 2️⃣ Environment Variables (EAS Build)
+Create a `.env` file and add necessary environment variables (if required). You can also define secrets using:
+```sh
+eas secret:create --name GOOGLE_SERVICES_JSON --value "$(cat google-services.json | base64)"
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-![FirebaseAuthApplicationPresentationVideo-VEED](https://github.com/user-attachments/assets/a737295c-e056-4dc9-a5cd-5744c95a6a57)
+## 📦 Deployment
+
+### 1️⃣ Deploy to Expo (OTA Updates)
+```sh
+expo publish
+```
+This will push an over-the-air update to all users.
+
+### 2️⃣ Deploy to Play Store (Android)
+- Download the APK from Expo Dashboard (`eas build:list`)
+- Go to [Google Play Console](https://play.google.com/console/)
+- Upload the APK and fill in the necessary details
+- Submit for review
+
+### 3️⃣ Deploy to App Store (iOS)
+- Download the IPA from Expo Dashboard
+- Use Transporter to upload the IPA to App Store Connect
+- Submit for review
+
+## 🛠 Troubleshooting
+
+- **Build fails?** Run `eas build --clear-cache` and try again.
+- **Firebase issues?** Check your `google-services.json` and ensure Firebase rules allow access.
+- **App not updating?** Try `expo publish --release-channel production`.
+
+## 📜 Additional Notes
+- Keep the `google-services.json` file **secure** and never expose it publicly.
+- Use environment variables for sensitive data in `.env`.
+
+---
+_This guide ensures a smooth build and deployment process for your React Native authentication and onboarding app._ 🚀
