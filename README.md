@@ -80,3 +80,4 @@ This will push an over-the-air update to all users.
 
 ---
 _This guide ensures a smooth build and deployment process for your React Native authentication and onboarding app._ 🚀
+![FirebaseAuthApplicationPresentationVideo-VEED](https://github.com/user-attachments/assets/6c0273be-4bd3-49ee-be2f-addfd14f0db4)
